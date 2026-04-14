@@ -15,7 +15,7 @@ def create_app():
     
     from .routes.auth import auth_bp
     from .routes.recipes import recipes_bp
-    from .routes.meal_plan import meal_plan_bp
+    from .routes.meal_plans import meal_plan_bp
     from .routes.shopping import shopping_bp
     from .routes.foods import foods_bp
 

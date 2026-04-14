@@ -10,7 +10,7 @@ class User(db.Model):
     username: Mapped[str] = mapped_column(String(80), unique=True)
     email: Mapped[str] = mapped_column(String(120), unique=True)
     password_hash: Mapped[str] = mapped_column(String(256))
-    first_login: Mapped[bool] = mapped_column(defaul=True)
+    first_login: Mapped[bool] = mapped_column(default=True)
     
     
     def set_password(self, password):

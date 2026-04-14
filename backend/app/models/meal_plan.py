@@ -7,10 +7,10 @@ class MealPlan(db.Model):
     __tablename__ = "meal_plans"
     
     id: Mapped[int] = mapped_column(primary_key=True)
-    week_Start_date = Mapped[Date] = mapped_column(Date)
+    week_Start_date: Mapped[Date] = mapped_column(Date)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     
-    entries = relationship("MealPlanEntry", backref="meal_plans", lazy=True, cacade="all, delete_orphan")
+    entries = relationship("MealPlanEntry", backref="meal_plans", lazy=True, cascade="all, delete-orphan")
     
     
     def ro_dict(self):
@@ -27,7 +27,7 @@ class MealPlanEntry(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     day_of_week: Mapped[str] = mapped_column(String(10))
     meal_type: Mapped[str] = mapped_column(String(20))
-    meal_plan_id: Mapped[int] = mapped_column(ForeignKey("meal_plans,id"))
+    meal_plan_id: Mapped[int] = mapped_column(ForeignKey("meal_plans.id"))
     recipe_id: Mapped[int] = mapped_column(ForeignKey("recipes.id"))
     
     recipe = relationship("Recipe")
