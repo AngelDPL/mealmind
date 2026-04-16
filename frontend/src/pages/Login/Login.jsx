@@ -39,12 +39,12 @@ const Login = () => {
                 backgroundPosition: 'center',
             }}
         >
-            <div className="absolute inset-0 bg-black/50" />
+            <div className="absolute inset-0" />
 
-            <div className="relative z-10 bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+            <div className="relative z-10 bg-white/80 rounded-2xl shadow-2xl p-8 w-full max-w-md">
                 <div className="text-center mb-8">
-                    <h2 className="text-2xl font-bold text-gray-800">MealMind</h2>
-                    <p className="text-gray-500 text-sm mt-1">Plan your meals with intelligence</p>
+                    <h2 className="text-2xl font-bold text-black">MealMind</h2>
+                    <p className="text-black text-sm mt-1">Plan your meals with intelligence.</p>
                 </div>
 
                 {error && (
@@ -55,7 +55,7 @@ const Login = () => {
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                     <div>
-                        <label className="text-sm font-medium text-gray-700 mb-1 block">Email</label>
+                        <label className="text-sm font-medium text-black mb-1 block">Email</label>
                         <input
                             type="email"
                             name="email"
@@ -68,7 +68,7 @@ const Login = () => {
                     </div>
 
                     <div>
-                        <label className="text-sm font-medium text-gray-700 mb-1 block">Password</label>
+                        <label className="text-sm font-medium text-black mb-1 block">Password</label>
                         <div className="relative">
                             <input
                                 type={showPassword ? 'text' : 'password'}
@@ -102,7 +102,7 @@ const Login = () => {
                             onChange={e => setRemember(e.target.checked)}
                             className="w-4 h-4 accent-indigo-500"
                         />
-                        <span className="text-sm text-gray-600">Remember me</span>
+                        <span className="text-sm text-black">Remember me</span>
                     </label>
 
                     <button
@@ -113,7 +113,7 @@ const Login = () => {
                     </button>
                 </form>
 
-                <p className="text-center text-sm text-gray-500 mt-6">
+                <p className="text-center text-md text-black mt-6">
                     Don't have an account?{' '}
                     <Link to="/register" className="text-indigo-500 font-semibold hover:underline">
                         Sign up

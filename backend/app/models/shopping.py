@@ -10,7 +10,7 @@ class ShoppingItem(db.Model):
     quantity: Mapped[float] = mapped_column()
     unit: Mapped[str] = mapped_column(String(20))
     checked: Mapped[bool] = mapped_column(default=False)
-    meal_plan_id: Mapped[int] = mapped_column(ForeignKey("meal_plans.id"))
+    meal_plan_id: Mapped[int] = mapped_column(ForeignKey("meal_plans.id", ondelete="CASCADE"))
     
     def to_dict(self):
         return {

@@ -14,7 +14,7 @@ def generate_shopping_list(plan_id):
     user_id = get_jwt_identity()
     plan = db.session.execute(
         select(MealPlan).where(MealPlan.id == plan_id, MealPlan.user_id == user_id)
-    ).scalars_one_or_none()
+    ).scalar_one_or_none()
     
     if not plan:
         return jsonify({"error": "Plan not found"}), 404
@@ -31,7 +31,7 @@ def generate_shopping_list(plan_id):
         if not entry.recipe:
             continue
         for ing in entry.recipe.ingredients:
-            key = (ing.food.name, ing.foog.unit)
+            key = (ing.food.name_en or ing.food.name, ing.food.unit)
             if key in items:
                 items[key] += ing.quantity
             else:

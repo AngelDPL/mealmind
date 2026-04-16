@@ -49,6 +49,22 @@ def create_meal_plan():
     return jsonify(plan.to_dict()), 201
 
 
+@meal_plan_bp.route("/<int:plan_id>/complete", methods=["PATCH"])
+@jwt_required()
+def complete_meal_plan(plan_id):
+    user_id = get_jwt_identity()
+    plan = db.session.execute(
+        select(MealPlan).where(MealPlan.id == plan_id, MealPlan.user_id == user_id)
+    ).scalar_one_or_none()
+
+    if not plan:
+        return jsonify({"error": "Plan not found"}), 404
+
+    plan.completed = not plan.completed
+    db.session.commit()
+    return jsonify(plan.to_dict()), 200
+
+
 @meal_plan_bp.route("/<int:plan_id>", methods=["DELETE"])
 @jwt_required()
 def delete_meal_plan(plan_id):

@@ -40,12 +40,12 @@ const Register = () => {
                 backgroundPosition: 'center',
             }}
         >
-            <div className="absolute inset-0 bg-black/50" />
+            <div className="absolute inset-0 " />
 
-            <div className="relative z-10 bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+            <div className="relative z-10 bg-white/80 rounded-2xl shadow-2xl p-8 w-full max-w-md">
                 <div className="text-center mb-8">
-                    <h2 className="text-2xl font-bold text-gray-800">Create account</h2>
-                    <p className="text-gray-500 text-sm mt-1">Start planning your meals</p>
+                    <h2 className="text-4xl font-bold text-black">Create account</h2>
+                    <p className="text-black text-md mt-1">Start planning your meals</p>
                 </div>
 
                 {error && (
@@ -56,7 +56,7 @@ const Register = () => {
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                     <div>
-                        <label className="text-sm font-medium text-gray-700 mb-1 block">Username</label>
+                        <label className="text-sm font-medium text-black mb-1 block">Username</label>
                         <input
                             type="text"
                             name="username"
@@ -69,7 +69,7 @@ const Register = () => {
                     </div>
 
                     <div>
-                        <label className="text-sm font-medium text-gray-700 mb-1 block">Email</label>
+                        <label className="text-sm font-medium text-black mb-1 block">Email</label>
                         <input
                             type="email"
                             name="email"
@@ -82,7 +82,7 @@ const Register = () => {
                     </div>
 
                     <div>
-                        <label className="text-sm font-medium text-gray-700 mb-1 block">Password</label>
+                        <label className="text-sm font-medium text-black mb-1 block">Password</label>
                         <div className="relative">
                             <input
                                 type={showPassword ? 'text' : 'password'}
@@ -117,7 +117,7 @@ const Register = () => {
                     </button>
                 </form>
 
-                <p className="text-center text-sm text-gray-500 mt-6">
+                <p className="text-center text-md text-black mt-6">
                     Already have an account?{' '}
                     <Link to="/login" className="text-indigo-500 font-semibold hover:underline">
                         Sign in

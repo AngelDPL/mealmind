@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getMealPlans, createMealPlan, deleteMealPlan } from '../../services/mealPlanService'
+import { getMealPlans, createMealPlan, deleteMealPlan, completeMealPlan } from '../../services/mealPlanService'
 import { getRecipes } from '../../services/recipeService'
 import { useNavigate } from 'react-router-dom'
 
@@ -83,36 +83,8 @@ const MealPlanner = () => {
 
     const getDayCount = (day) => MEALS.filter(meal => entries[`${day}_${meal}`]).length
 
-
-
     return (
         <div className="max-w-3xl mx-auto px-4 py-6">
-
-            {
-                confirmDelete && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center px-4" style={{ background: 'rgba(0,0,0,0.6)' }}>
-                        <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-sm text-center flex flex-col gap-4">
-                            <div className="text-5xl">🗑️</div>
-                            <h3 className="text-xl font-bold text-gray-800">Delete plan?</h3>
-                            <p className="text-gray-500 text-sm">This action cannot be undone.</p>
-                            <div className="flex gap-3">
-                                <button
-                                    onClick={() => setConfirmDelete(null)}
-                                    className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2.5 rounded-xl transition border-none"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    onClick={() => { handleDelete(confirmDelete); setConfirmDelete(null) }}
-                                    className="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-2.5 rounded-xl transition border-none"
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )
-            }
 
             <div className="flex items-center justify-between mb-6">
                 <h1 className="text-2xl font-bold text-white drop-shadow">📅 Meal Planner</h1>
@@ -132,8 +104,8 @@ const MealPlanner = () => {
             )}
 
             {showForm && (
-                <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg p-6 mb-6 relative z-10">
-                    <h2 className="text-lg font-bold text-gray-800 mb-4">New weekly plan</h2>
+                <div className="bg-white/70 backdrop-blur-md rounded-2xl shadow-lg p-6 mb-6 relative z-10">
+                    <h2 className="text-lg font-bold text-black mb-4">New weekly plan</h2>
                     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
 
                         <div>
@@ -239,12 +211,18 @@ const MealPlanner = () => {
                         <p className="text-white/80 text-sm">Loading plans...</p>
                     </div>
                 ) : plans.length === 0 ? (
-                    <p className="text-white/60 text-sm">No plans yet. Create your first one!</p>
+                    <div className="rounded-2xl text-center py-16 text-xl text-white/90 bg-black/40">
+                        No plans yet. Create your first one!
+                    </div>
                 ) : (
                     plans.map(plan => (
-                        <div key={plan.id} className="bg-white/80 backdrop-blur-md rounded-2xl shadow-md p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div key={plan.id} className={`backdrop-blur-md rounded-2xl shadow-md p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${plan.completed ? 'bg-green-50/80' : 'bg-white/80'
+                            }`}>
                             <div>
-                                <h4 className="font-bold text-gray-800">📅 Week of {plan.week_start_date}</h4>
+                                <div className="flex items-center gap-2">
+                                    {plan.completed && <span className="text-green-500">✅</span>}
+                                    <h4 className="font-bold text-gray-800">📅 Week of {plan.week_start_date}</h4>
+                                </div>
                                 <p className="text-gray-500 text-sm mt-0.5">{plan.entries.length} meals planned</p>
                             </div>
                             <div className="flex gap-2 flex-wrap">
@@ -258,18 +236,58 @@ const MealPlanner = () => {
                                     onClick={() => navigate(`/shopping/${plan.id}`)}
                                     className="px-4 py-2 bg-green-50 hover:bg-green-100 text-green-600 text-sm font-medium rounded-xl transition border-none shadow-none"
                                 >
-                                    🛒 Shopping list
+                                    Shopping list
                                 </button>
+                                {plan.completed && (
+                                    <button
+                                        onClick={async () => {
+                                            try {
+                                                await completeMealPlan(plan.id)
+                                                fetchData()
+                                            } catch (err) {
+                                                setError(err.message)
+                                            }
+                                        }}
+                                        className="px-4 py-2 bg-yellow-50 hover:bg-yellow-100 text-yellow-600 text-sm font-medium rounded-xl transition border-none shadow-none"
+                                    >
+                                        Mark incomplete
+                                    </button>
+                                )}
                                 <button
                                     onClick={() => setConfirmDelete(plan.id)}
                                     className="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-500 text-sm font-medium rounded-xl transition border-none shadow-none"
                                 >
-                                    🗑 Delete
+                                    Delete
                                 </button>
                             </div>
                         </div>
                     ))
                 )}
+
+                {confirmDelete && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center px-4" style={{ background: 'rgba(0,0,0,0.6)' }}>
+                        <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-sm text-center flex flex-col gap-4">
+                            <div className="text-5xl">🗑️</div>
+                            <h3 className="text-xl font-bold text-gray-800">Delete plan?</h3>
+                            <p className="text-gray-500 text-sm">This action cannot be undone.</p>
+                            <div className="flex gap-3">
+                                <button
+                                    onClick={() => setConfirmDelete(null)}
+                                    className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2.5 rounded-xl transition border-none"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={() => { handleDelete(confirmDelete); setConfirmDelete(null) }}
+                                    className="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-2.5 rounded-xl transition border-none"
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
             </div>
         </div>
     )

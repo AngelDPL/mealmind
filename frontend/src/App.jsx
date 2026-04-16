@@ -8,6 +8,7 @@ import Register from './pages/Register/Register'
 import Recipes from './pages/Recipes/Recipes'
 import MealPlanner from './pages/MealPlanner/MealPlanner'
 import MealPlanDetail from './pages/MealPlanDetail/MealPlanDetail'
+import Shopping from './pages/Shopping/Shopping'
 
 
 const PublicRoute = ({ children }) => {
@@ -34,7 +35,7 @@ const App = () => {
 				backgroundAttachment: 'fixed',
 			}}
 		>
-			<div className="absolute inset-0 bg-black/40 z-0" />
+			<div className="absolute inset-0 z-0" />
 			<div className="relative z-10 min-h-screen flex flex-col">
 				<Navbar />
 				<main className="flex-1">
@@ -45,6 +46,7 @@ const App = () => {
 						<Route path="/recipes" element={<PrivateRoutes><Recipes /></PrivateRoutes>} />
 						<Route path="/meal-planner" element={<PrivateRoutes><MealPlanner /></PrivateRoutes>} />
 						<Route path="/meal-planner/:planId" element={<PrivateRoutes><MealPlanDetail /></PrivateRoutes>} />
+						<Route path="/shopping/:planId" element={<PrivateRoutes><Shopping /></PrivateRoutes>} />
 					</Routes>
 				</main>
 			</div>
