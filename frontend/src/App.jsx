@@ -6,6 +6,8 @@ import Navbar from './components/Navbar/Navbar'
 import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
 import Recipes from './pages/Recipes/Recipes'
+import MealPlanner from './pages/MealPlanner/MealPlanner'
+import MealPlanDetail from './pages/MealPlanDetail/MealPlanDetail'
 
 
 const PublicRoute = ({ children }) => {
@@ -41,6 +43,8 @@ const App = () => {
 						<Route path="*" element={<Navigate to="/login" />} />
 						<Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
 						<Route path="/recipes" element={<PrivateRoutes><Recipes /></PrivateRoutes>} />
+						<Route path="/meal-planner" element={<PrivateRoutes><MealPlanner /></PrivateRoutes>} />
+						<Route path="/meal-planner/:planId" element={<PrivateRoutes><MealPlanDetail /></PrivateRoutes>} />
 					</Routes>
 				</main>
 			</div>

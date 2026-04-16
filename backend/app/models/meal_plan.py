@@ -7,16 +7,16 @@ class MealPlan(db.Model):
     __tablename__ = "meal_plans"
     
     id: Mapped[int] = mapped_column(primary_key=True)
-    week_Start_date: Mapped[Date] = mapped_column(Date)
+    week_start_date: Mapped[Date] = mapped_column(Date)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     
     entries = relationship("MealPlanEntry", backref="meal_plans", lazy=True, cascade="all, delete-orphan")
     
     
-    def ro_dict(self):
+    def to_dict(self):
         return {
             "id": self.id,
-            "week_start_date": self.week_Start_date.isoformat(),
+            "week_start_date": self.week_start_date.isoformat(),
             "entries": [e.to_dict() for e in self.entries if e.recipe is not None]
         }
         

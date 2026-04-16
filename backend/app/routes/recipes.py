@@ -92,7 +92,7 @@ def delete_recipe(recipe_id):
     user_id = get_jwt_identity()
     recipe = db.session.execute(
         select(Recipe).where(Recipe.id == recipe_id, Recipe.user_id == user_id)
-    ).scalars_one_or_none()
+    ).scalar_one_or_none()
     
     if not recipe:
         return jsonify({"error": "Recipe not found"}), 404

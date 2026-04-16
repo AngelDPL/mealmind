@@ -90,14 +90,13 @@ const Recipes = () => {
     return (
         <div className="max-w-6xl mx-auto px-4 py-6">
 
-            {/* Welcome modal */}
             {firstLogin && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center px-4" style={{ background: 'rgba(0,0,0,0.6)' }}>
                     <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-sm text-center flex flex-col gap-4">
                         <div className="text-5xl">👋</div>
                         <h3 className="text-xl font-bold text-gray-800">Welcome, {user.username}!</h3>
                         <p className="text-gray-500 text-sm leading-relaxed">
-                            We've added <span className="font-semibold text-indigo-600">20 recipes</span> to get you started with macros already calculated.
+                            We've added <span className="font-semibold text-indigo-600">30 recipes</span> to get you started with macros already calculated.
                         </p>
                         <div className="bg-indigo-50 rounded-xl px-4 py-3">
                             <span className="text-2xl">🍽️</span>
@@ -113,7 +112,6 @@ const Recipes = () => {
                 </div>
             )}
 
-            {/* Header */}
             <div className="flex items-center justify-between mb-6">
                 <h1 className="text-2xl font-bold text-white drop-shadow">🍽️ My Recipes</h1>
                 <button
@@ -133,7 +131,6 @@ const Recipes = () => {
                 </div>
             )}
 
-            {/* Formulario */}
             {showForm && (
                 <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg p-6 mb-6">
                     <h2 className="text-lg font-bold text-gray-800 mb-4">New recipe</h2>
@@ -247,7 +244,6 @@ const Recipes = () => {
                 </div>
             )}
 
-            {/* Buscador de recetas */}
             <div className="relative mb-6">
                 <input
                     type="text"
@@ -266,7 +262,6 @@ const Recipes = () => {
                 )}
             </div>
 
-            {/* Grid de recetas */}
             {loading ? (
                 <div className="flex flex-col items-center justify-center py-20 gap-3">
                     <div className="w-8 h-8 border-4 border-white/30 border-t-white rounded-full animate-spin" />

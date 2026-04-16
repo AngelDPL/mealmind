@@ -3,6 +3,7 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 from sqlalchemy import select
 from app.extensions import db
 from app.models import User
+from app.utils import create_starter_recipes
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -35,7 +36,9 @@ def register():
     user.set_password(data["password"])
     
     db.session.add(user)
-    db.session.commit()
+    db.session.flush()
+    
+    create_starter_recipes(user.id)
     
     return jsonify({"Message": "User created successfully", "user": user.to_dict()}), 201
 
@@ -112,7 +115,7 @@ def change_password():
     data = request.get_json()
     
     if not user.check_password(data.get("current_password", "")):
-        return ({"error": "Current password is incorrect"}), 401
+        return jsonify({"error": "Current password is incorrect"}), 401
     
     user.set_password(data["new_password"])
     db.session.commit()

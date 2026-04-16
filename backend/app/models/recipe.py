@@ -30,11 +30,11 @@ class Ingredient(db.Model):
     def fat(self):
         return round(self.food.fat * self.quantity / 100, 1)
     
-    def to_dict(self):
+    def to_dict(self, lang='en'):
         return {
             "id": self.id,
             "food_id": self.food_id,
-            "name": self.food.name,
+            "name": self.food.name_en if lang == 'en' and self.food.name_en else self.food.name,
             "quantity": self.quantity,
             "unit": self.food.unit,
             "calories": self.calories,
@@ -71,7 +71,7 @@ class Recipe(db.Model):
     def fat(self):
         return round(sum(i.fat for i in self.ingredients), 1)
 
-    def to_dict(self):
+    def to_dict(self, lang='en'):
         return {
             "id": self.id,
             "name": self.name,
@@ -80,5 +80,5 @@ class Recipe(db.Model):
             "protein": self.protein,
             "carbs": self.carbs,
             "fat": self.fat,
-            "ingredients": [i.to_dict() for i in self.ingredients]
+            "ingredients": [i.to_dict(lang=lang) for i in self.ingredients]
         }
