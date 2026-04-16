@@ -32,11 +32,12 @@ def register():
         username = data["username"],
         email = data["email"]
     )
+    user.set_password(data["password"])
     
     db.session.add(user)
     db.session.commit()
     
-    return jsonify({"Message": "User created successfully", "user": user.to_dict}), 201
+    return jsonify({"Message": "User created successfully", "user": user.to_dict()}), 201
 
 
 @auth_bp.route("/login", methods=["POST"])

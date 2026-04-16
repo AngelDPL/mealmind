@@ -1,6 +1,9 @@
 import { Routes, Route, Navigate } from "react-router-dom"
 import { useAuth } from "./context/AuthContext"
+
+
 import Login from './pages/Login/Login'
+import Register from './pages/Register/Register'
 
 
 const PublicRoute = ({ children }) => {
@@ -15,6 +18,7 @@ const App = () => {
 		<Routes>
 			<Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
 			<Route path="*" element={<Navigate to="/login" />} />
+			<Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
 		</Routes>
 	)
 }

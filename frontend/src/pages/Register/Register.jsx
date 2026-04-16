@@ -1,33 +1,34 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { login } from '../../services/authService'
-import { useAuth } from '../../context/AuthContext'
+import { register } from '../../services/authService'
 
-const Login = () => {
-    const [form, setForm] = useState({ email: '', password: '' })
+const Register = () => {
+    const [form, setForm] = useState({ username: '', email: '', password: '' })
     const [error, setError] = useState('')
+    const [showModal, setShowModal] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
     const [capsLock, setCapsLock] = useState(false)
     const [passwordFocused, setPasswordFocused] = useState(false)
-    const [remember, setRemember] = useState(false)
 
-    const { loginUser } = useAuth()
     const navigate = useNavigate()
 
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
-
     const handleKeyDown = (e) => setCapsLock(e.getModifierState('CapsLock'))
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         setError('')
         try {
-            const data = await login(form)
-            loginUser(data.access_token, data.user, remember, data.first_login)
-            navigate('/recipes')
+            await register(form)
+            setShowModal(true)
         } catch (err) {
             setError(err.message)
         }
+    }
+
+    const handleModalClose = () => {
+        setShowModal(false)
+        navigate('/login')
     }
 
     return (
@@ -43,8 +44,8 @@ const Login = () => {
 
             <div className="relative z-10 bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
                 <div className="text-center mb-8">
-                    <h2 className="text-2xl font-bold text-gray-800">MealMind</h2>
-                    <p className="text-gray-500 text-sm mt-1">Plan your meals with intelligence</p>
+                    <h2 className="text-2xl font-bold text-gray-800">Create account</h2>
+                    <p className="text-gray-500 text-sm mt-1">Start planning your meals</p>
                 </div>
 
                 {error && (
@@ -54,6 +55,19 @@ const Login = () => {
                 )}
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                    <div>
+                        <label className="text-sm font-medium text-gray-700 mb-1 block">Username</label>
+                        <input
+                            type="text"
+                            name="username"
+                            placeholder="yourname"
+                            value={form.username}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-gray-50 focus:outline-none focus:border-indigo-400 focus:bg-white transition"
+                        />
+                    </div>
+
                     <div>
                         <label className="text-sm font-medium text-gray-700 mb-1 block">Email</label>
                         <input
@@ -85,9 +99,9 @@ const Login = () => {
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 bg-transparent border-none p-0 shadow-none"
+                                className="absolute right-3 top-1/2 -translate-y-1/2 bg-transparent border-none p-0 shadow-none"
                             >
-                                {showPassword ? '🔒' : '🥕'}
+                                {showPassword ? '🫣' : '🥕'}
                             </button>
                         </div>
                         {capsLock && passwordFocused && (
@@ -95,33 +109,41 @@ const Login = () => {
                         )}
                     </div>
 
-                    <label className="flex items-center gap-2 cursor-pointer">
-                        <input
-                            type="checkbox"
-                            checked={remember}
-                            onChange={e => setRemember(e.target.checked)}
-                            className="w-4 h-4 accent-indigo-500"
-                        />
-                        <span className="text-sm text-gray-600">Remember me</span>
-                    </label>
-
                     <button
                         type="submit"
                         className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2.5 rounded-xl transition active:scale-95 border-none"
                     >
-                        Sign in
+                        Create account
                     </button>
                 </form>
 
                 <p className="text-center text-sm text-gray-500 mt-6">
-                    Don't have an account?{' '}
-                    <Link to="/register" className="text-indigo-500 font-semibold hover:underline">
-                        Sign up
+                    Already have an account?{' '}
+                    <Link to="/login" className="text-indigo-500 font-semibold hover:underline">
+                        Sign in
                     </Link>
                 </p>
             </div>
+
+            {showModal && (
+                <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-20 px-4">
+                    <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-sm text-center flex flex-col gap-4">
+                        <div className="text-5xl">🎉</div>
+                        <h3 className="text-xl font-bold text-gray-800">Account created!</h3>
+                        <p className="text-gray-500 text-sm leading-relaxed">
+                            Your account has been created. You can now sign in.
+                        </p>
+                        <button
+                            onClick={handleModalClose}
+                            className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2.5 rounded-xl transition active:scale-95 border-none"
+                        >
+                            Go to login 🚀
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
 
-export default Login
+export default Register
