@@ -33,7 +33,6 @@ const App = () => {
 				backgroundImage: 'url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600)',
 				backgroundSize: 'cover',
 				backgroundPosition: 'center',
-				backgroundAttachment: 'fixed',
 				minHeight: '100dvh',
 			}}
 		>
