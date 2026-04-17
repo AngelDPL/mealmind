@@ -1,7 +1,5 @@
-import { Routes, Route, Navigate } from "react-router-dom"
-import { useAuth } from "./context/AuthContext"
-
-
+import { Routes, Route, Navigate } from 'react-router-dom'
+import { useAuth } from './context/AuthContext'
 import Navbar from './components/Navbar/Navbar'
 import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
@@ -11,55 +9,49 @@ import MealPlanDetail from './pages/MealPlanDetail/MealPlanDetail'
 import Shopping from './pages/Shopping/Shopping'
 import Profile from './pages/Profile/Profile'
 
+const BG = 'url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600)'
+
+const PrivateRoute = ({ children }) => {
+    const { user, loading } = useAuth()
+    if (loading) return <div style={{ minHeight: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '1.2rem' }}>Loading...</div>
+    return user ? children : <Navigate to="/login" />
+}
 
 const PublicRoute = ({ children }) => {
-	const { user, loading } = useAuth()
-	if (loading) return <div className="min-h-screen flex items-center justify-center text-white text-xl">Loading...</div>
-	return user ? <Navigate to="/recipes" /> : children
+    const { user, loading } = useAuth()
+    if (loading) return <div style={{ minHeight: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '1.2rem' }}>Loading...</div>
+    return user ? <Navigate to="/recipes" /> : children
 }
 
-const PrivateRoutes = ({ children }) => {
-	const { user, loading } = useAuth()
-	if (loading) return <div className="min-h-screen flex items-center justify-center text-white text-xl">Loading...</div>
-	return user ? children : <Navigate to="/login" />
-}
-
+const PageWrapper = ({ children }) => (
+    <div style={{
+        minHeight: '100dvh',
+        backgroundImage: BG,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+    }}>
+        <div style={{ minHeight: '100dvh', background: 'rgba(0,0,0,0.4)' }}>
+            {children}
+        </div>
+    </div>
+)
 
 const App = () => {
-	return (
-		<>
-			<div
-				style={{
-					position: 'fixed',
-					top: 0,
-					left: 0,
-					width: '100%',
-					height: '100%',
-					backgroundImage: 'url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600)',
-					backgroundSize: 'cover',
-					backgroundPosition: 'center',
-					zIndex: -1,
-				}}
-			/>
-
-			<div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 0 }} />
-			<div style={{ position: 'relative', zIndex: 1, minHeight: '100dvh', display: 'flex', flexDirection: 'column' }}>
-				<Navbar />
-				<main className="flex-1">
-					<Routes>
-						<Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-						<Route path="*" element={<Navigate to="/login" />} />
-						<Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
-						<Route path="/recipes" element={<PrivateRoutes><Recipes /></PrivateRoutes>} />
-						<Route path="/meal-planner" element={<PrivateRoutes><MealPlanner /></PrivateRoutes>} />
-						<Route path="/meal-planner/:planId" element={<PrivateRoutes><MealPlanDetail /></PrivateRoutes>} />
-						<Route path="/shopping/:planId" element={<PrivateRoutes><Shopping /></PrivateRoutes>} />
-						<Route path="/profile" element={<PrivateRoutes><Profile /></PrivateRoutes>} />
-					</Routes>
-				</main>
-			</div>
-		</>
-	)
+    return (
+        <div style={{ minHeight: '100dvh' }}>
+            <Navbar />
+            <Routes>
+                <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+                <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+                <Route path="/recipes" element={<PrivateRoute><PageWrapper><Recipes /></PageWrapper></PrivateRoute>} />
+                <Route path="/meal-planner" element={<PrivateRoute><PageWrapper><MealPlanner /></PageWrapper></PrivateRoute>} />
+                <Route path="/meal-planner/:planId" element={<PrivateRoute><PageWrapper><MealPlanDetail /></PageWrapper></PrivateRoute>} />
+                <Route path="/shopping/:planId" element={<PrivateRoute><PageWrapper><Shopping /></PageWrapper></PrivateRoute>} />
+                <Route path="/profile" element={<PrivateRoute><PageWrapper><Profile /></PageWrapper></PrivateRoute>} />
+                <Route path="*" element={<Navigate to="/login" />} />
+            </Routes>
+        </div>
+    )
 }
 
 export default App
