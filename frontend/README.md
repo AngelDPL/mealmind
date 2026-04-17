@@ -1,16 +1,94 @@
-# React + Vite
+# 🥗 MealMind
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**MealMind** is a smart meal planning web app that helps you organize your weekly diet, track your macros, and never forget what to buy at the supermarket.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## What can you do with MealMind?
 
-## React Compiler
+### Create your own recipes
+Build your personal recipe library by searching from a database of 187+ ingredients with nutritional values already calculated. MealMind automatically computes the total calories, protein, carbs and fat for each recipe.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Track your macros
+Every recipe shows a detailed macro breakdown so you always know what you're eating. No manual calculations needed — MealMind does the math for you.
 
-## Expanding the ESLint configuration
+### Plan your weekly meals
+Assign recipes to each meal of the day (breakfast, lunch and dinner) for every day of the week. Get a clear overview of your entire week at a glance.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Generate your shopping list
+Once your week is planned, MealMind automatically generates a shopping list with all the ingredients you need and the exact quantities. Check items off as you shop and mark the plan as complete when you're done.
+
+### Personalize your account
+Update your username, email and password from your profile at any time.
+
+---
+
+## Getting started
+
+1. **Register** — create your account and get 30 starter recipes automatically added to your library
+2. **Explore recipes** — browse your recipes or create new ones with the ingredient search
+3. **Plan your week** — go to the Planner, pick a start date and assign recipes to each meal
+4. **Shop smarter** — generate your shopping list and check items off as you buy them
+
+---
+
+## Tech stack
+
+**Frontend**
+- React + Vite
+- Tailwind CSS
+- React Router
+
+**Backend**
+- Python + Flask
+- SQLAlchemy + PostgreSQL
+- Flask-JWT-Extended
+
+**Deploy**
+- Frontend → Vercel
+- Backend + Database → Railway
+
+---
+
+##  Development setup
+
+### Backend
+```bash
+cd backend
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+python run.py
+python seed_foods.py
+```
+
+### Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### Environment variables
+
+**backend/.env**
+```
+SECRET_KEY=your_secret_key
+JWT_SECRET_KEY=your_jwt_secret
+DATABASE_URL=sqlite:///mealmind.db
+```
+
+**frontend/.env**
+```
+VITE_API_URL=http://localhost:5000/api
+```
+
+---
+
+## Live demo
+
+🌐 [mealmind.vercel.app](https://mealmind.vercel.app)
+
+---
+
+Made with ❤️ and 🥕
