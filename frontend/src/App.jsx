@@ -34,6 +34,7 @@ const App = () => {
 				backgroundSize: 'cover',
 				backgroundPosition: 'center',
 				backgroundAttachment: 'fixed',
+				minHeight: '100dvh',
 			}}
 		>
 			<div className="absolute inset-0 z-0" />
