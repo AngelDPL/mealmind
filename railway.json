@@ -1,10 +1,10 @@
 {
     "build": {
         "builder": "NIXPACKS",
-        "buildCommand": "pip3 install -r backend/requirements.txt"
+        "buildCommand": "python3.11 -m pip install -r backend/requirements.txt"
     },
     "deploy": {
-        "startCommand": "cd backend && gunicorn run:app",
+        "startCommand": "cd backend && python3.11 -m gunicorn run:app",
         "restartPolicyType": "ON_FAILURE"
     }
 }
