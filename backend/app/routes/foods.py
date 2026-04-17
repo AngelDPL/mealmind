@@ -37,3 +37,9 @@ def get_categories():
     else:
         categories = sorted(set(f.category for f in foods if f.category))
     return jsonify(categories), 200
+
+@foods_bp.route("/count", methods=["GET"])
+def count_foods():
+    from sqlalchemy import func
+    count = db.session.execute(db.select(func.count(Food.id))).scalar()
+    return jsonify({"count": count}), 200
