@@ -18,6 +18,7 @@ def create_app():
                     "http://localhost:5173",
                     "http://127.0.0.1:5173",
                     "https://mealmind-frontend-ixxa.onrender.com",
+                    "https://meal-mind-i85o8rfrd-angeldpls-projects.vercel.app",
                 ]
             }
         },
