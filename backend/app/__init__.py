@@ -1,5 +1,5 @@
 from flask import Flask
-from .extensions import db, jwt, cors, migrate, mail
+from .extensions import db, jwt, cors, migrate
 from config import Config
 from flask_cors import CORS
 from sqlalchemy import select as sa_select
@@ -17,7 +17,6 @@ def create_app():
     "https://meal-mind-seven.vercel.app"
     ]}})
     migrate.init_app(app, db)
-    mail.init_app(app)
 
     from .routes.auth import auth_bp
     from .routes.recipes import recipes_bp
